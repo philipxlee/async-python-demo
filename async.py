@@ -12,7 +12,7 @@ class Asynchronous:
     async def task1(self):
         print("Send 1st email")
         asyncio.create_task(self.task2())
-        await asyncio.sleep(5)
+        await asyncio.sleep(5)  # once completed, return to next line
         print("Recieved 1st email")
 
     async def task2(self):
@@ -26,7 +26,26 @@ class Asynchronous:
         await asyncio.sleep(2)
         print("Recieved 3rd email")
 
+    async def fetchData(self):
+        print("Fetching data...")
+        await asyncio.sleep(2)
+        print("Data fetched")
+        return {"data": 100}  # return data as dictionary
 
-if __name__ == "__main__":
+    async def timer(self):
+        for i in range(10):
+            print(i)
+            await asyncio.sleep(2)
+
+
+async def main():
     asyncTask = Asynchronous()
-    asyncTask.runTasks()
+
+    x = asyncio.create_task(asyncTask.fetchData())
+    y = asyncio.create_task(asyncTask.timer())
+    data = await x
+    print(data)
+    await y
+
+
+asyncio.run(main())
